@@ -78,3 +78,20 @@ async function deleteBook(request, response, next) {
     next(error);
   }
 }
+app.put('/books/:bookId', updateBook);
+
+async function updateBook(request, response, next) {
+  try {
+    let id = request.params.bookId;
+
+    let frontenddata = request.body;
+
+    const updatedBook = await Book.findByIdAndUpdate(id, frontenddata, { new: true, overwrite: true });
+
+    response.status(200).send(updatedBook);
+
+  } catch (error) {
+    console.log(error.message);
+    next(error);
+  }
+}
