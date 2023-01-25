@@ -1,13 +1,19 @@
 'use strict';
 
-require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
 const app = express();
+const mongoose = require('mongoose');
+const cors = require('cors');
+require('dotenv').config();
+
+const Book = require('./Models/book.js');
+
 app.use(cors());
 app.use(express.json());
-const Book = require('./Models/book.js');
+
+
+// MongoDB Connection
+
 mongoose.connect(process.env.DB_URL);
 
 const db = mongoose.connection;
@@ -16,15 +22,18 @@ db.once('open', function () {
   console.log('Mongoose is connected');
 });
 
+// Server Connection
+
 const PORT = process.env.PORT || 3002;
+app.listen(PORT, () => console.log(`listening on ${PORT}`));
+
+// Endpoints
 
 app.get('/test', (request, response) => {
-
   response.send('test request received');
-
 });
 
-app.listen(PORT, () => console.log(`listening on ${PORT}`));
+
 
 app.get('/books', getBooks);
 
@@ -69,5 +78,3 @@ async function deleteBook(request, response, next) {
     next(error);
   }
 }
-
-

@@ -1,7 +1,8 @@
-' Use Strict';
+'use strict';
 
 require('dotenv').config();
 const mongoose = require('mongoose');
+
 mongoose.connect(process.env.DB_URL);
 
 const Book = require('./Models/book.js');
@@ -27,7 +28,6 @@ async function seed() {
     status: 'in progress',
   });
   console.log(`Code 201`);
-
 
 
   mongoose.disconnect();
